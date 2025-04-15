@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PhoneInquiryFormData } from '../../types/formTypes';
 import { phoneInquiryValidationSchema } from '../../utils/validationSchema';
 import PersonalInformationSection from './sections/PersonalInformationSection';
 import ResidenceStatusSection from './sections/ResidenceStatusSection';
@@ -11,6 +10,7 @@ import AsylumProcedureSection from './sections/AsylumProcedureSection';
 import MaritalStatusSection from './sections/MaritalStatusSection';
 import ChildrenInformationSection from './sections/ChildrenInformationSection';
 import EmploymentSection from './sections/EmploymentSection';
+import FormNavigation from './FormNavigation';
 
 interface PhoneInquiryFormProps {
   onSubmit: (data: any) => void;
@@ -45,42 +45,70 @@ const defaultValues = {
   childrenAges: '',
   childrenResidenceStatus: '',
   isWorking: false,
-  workingHours: ''
+  workingHours: '',
 };
 
 const PhoneInquiryForm: React.FC<PhoneInquiryFormProps> = ({ onSubmit }) => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 8;
+
   const methods = useForm({
     defaultValues,
     mode: 'onBlur',
-    resolver: yupResolver(phoneInquiryValidationSchema) as any
+    resolver: yupResolver(phoneInquiryValidationSchema) as any,
   });
 
   const handleSubmit = methods.handleSubmit((data) => {
     onSubmit(data);
   });
 
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const renderCurrentStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <PersonalInformationSection />;
+      case 2:
+        return <LanguageSection />;
+      case 3:
+        return <ResidenceStatusSection />;
+      case 4:
+        return <AsylumProcedureSection />;
+      case 5:
+        return <EmploymentSection />;
+      case 6:
+        return <MaritalStatusSection />;
+      case 7:
+        return <ChildrenInformationSection />;
+      case 8:
+        return <SupportNeedsSection />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit} className="phone-inquiry-form">
-        <h1>Phone Inquiry Form</h1>
-        
-        <PersonalInformationSection />
-        <ResidenceStatusSection />
-        <LanguageSection />
-        <SupportNeedsSection />
-        <AsylumProcedureSection />
-        <MaritalStatusSection />
-        <ChildrenInformationSection />
-        <EmploymentSection />
-        
-        <div className="form-actions">
-          <button type="submit" className="submit-button">
-            Submit
-          </button>
-          <button type="button" className="reset-button" onClick={() => methods.reset()}>
-            Reset
-          </button>
-        </div>
+        {renderCurrentStep()}
+
+        <FormNavigation
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onSubmit={handleSubmit}
+        />
       </form>
     </FormProvider>
   );
