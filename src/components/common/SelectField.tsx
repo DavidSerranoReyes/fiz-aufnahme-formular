@@ -14,10 +14,13 @@ const SelectField: React.FC<SelectFieldProps> = ({
   label,
   options,
   required = false,
-  placeholder = 'Select an option'
+  placeholder = 'Select an option',
 }) => {
-  const { register, formState: { errors } } = useFormContext();
-  
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <div className="form-field">
       <label htmlFor={name} className="form-label">
@@ -28,7 +31,9 @@ const SelectField: React.FC<SelectFieldProps> = ({
         className={`form-select ${errors[name] ? 'input-error' : ''}`}
         {...register(name)}
       >
-        <option value="">{placeholder}</option>
+        <option value="" disabled hidden selected>
+          {placeholder}
+        </option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

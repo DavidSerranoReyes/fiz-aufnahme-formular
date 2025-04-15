@@ -54,6 +54,10 @@ body {
 
 .form-row {
   margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .conditional-section {
@@ -61,17 +65,33 @@ body {
   padding-left: 1rem;
   border-left: 3px solid var(--primary-color);
   margin-top: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.conditional-section .form-row,
+.conditional-section .form-field,
+.conditional-section .form-input,
+.conditional-section .form-select,
+.conditional-section textarea {
+  width: 100% !important;
+  min-width: 0;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 /* Form fields */
 .form-field {
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  text-align: left;
 }
 
 .form-input,
@@ -99,6 +119,7 @@ body {
   color: var(--error-color);
   font-size: 0.875rem;
   margin-top: 0.25rem;
+  text-align: left;
 }
 
 .required {
@@ -110,6 +131,7 @@ body {
 .checkbox-field,
 .radio-group {
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .checkbox-label,
@@ -118,11 +140,13 @@ body {
   align-items: center;
   cursor: pointer;
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .checkbox-text,
 .radio-text {
   margin-left: 0.5rem;
+  text-align: left;
 }
 
 .checkbox-options,
@@ -130,6 +154,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 /* Form actions */
@@ -147,7 +172,9 @@ body {
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 
 .submit-button {
@@ -173,14 +200,16 @@ body {
 /* Responsive styles */
 @media (min-width: 768px) {
   .form-row {
-    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 1.5rem;
   }
-  
+
   .form-row > * {
     flex: 1;
+    min-width: 200px;
   }
-  
+
   .checkbox-options,
   .radio-options {
     display: grid;
@@ -193,13 +222,12 @@ body {
     padding: 1.5rem;
     margin: 1rem;
   }
-  
-  .form-actions {
+
+  .form-row {
     flex-direction: column;
   }
-  
-  .submit-button,
-  .reset-button {
+
+  .form-row > * {
     width: 100%;
   }
 }

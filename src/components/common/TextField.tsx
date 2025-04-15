@@ -6,7 +6,7 @@ interface TextFieldProps {
   label: string;
   placeholder?: string;
   required?: boolean;
-  type?: 'text' | 'date' | 'tel' | 'number';
+  type?: 'text' | 'date' | 'tel' | 'number' | 'textarea';
 }
 
 const TextField: React.FC<TextFieldProps> = ({
@@ -14,22 +14,35 @@ const TextField: React.FC<TextFieldProps> = ({
   label,
   placeholder = '',
   required = false,
-  type = 'text'
+  type = 'text',
 }) => {
-  const { register, formState: { errors } } = useFormContext();
-  
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <div className="form-field">
       <label htmlFor={name} className="form-label">
         {label} {required && <span className="required">*</span>}
       </label>
-      <input
-        id={name}
-        type={type}
-        placeholder={placeholder}
-        className={`form-input ${errors[name] ? 'input-error' : ''}`}
-        {...register(name)}
-      />
+      {type === 'textarea' ? (
+        <textarea
+          id={name}
+          placeholder={placeholder}
+          className={`form-input ${errors[name] ? 'input-error' : ''}`}
+          rows={4}
+          {...register(name)}
+        />
+      ) : (
+        <input
+          id={name}
+          type={type}
+          placeholder={placeholder}
+          className={`form-input ${errors[name] ? 'input-error' : ''}`}
+          {...register(name)}
+        />
+      )}
       {errors[name] && (
         <p className="error-message">{errors[name]?.message as string}</p>
       )}

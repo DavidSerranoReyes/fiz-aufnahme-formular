@@ -9,44 +9,51 @@ const SupportNeedsSection: React.FC = () => {
   const supportTypes = useWatch({
     control,
     name: 'supportTypes',
-    defaultValue: []
+    defaultValue: [],
   });
 
   const supportTypeOptions = [
     { value: 'humanTrafficking', label: 'Human Trafficking' },
     { value: 'forcedProstitution', label: 'Forced Prostitution' },
-    { value: 'criminalIssues', label: 'Criminal Issues (charges against/by her, court proceedings)' },
+    {
+      value: 'criminalIssues',
+      label: 'Criminal Issues (charges against/by her, court proceedings)',
+    },
     { value: 'insecureResidenceTitle', label: 'Insecure Residence Title' },
     { value: 'laborExploitation', label: 'Labor Exploitation' },
     { value: 'fgm', label: 'FGM/C' },
     { value: 'domesticViolence', label: 'Domestic Violence' },
     { value: 'separationAndDivorce', label: 'Separation and Divorce' },
-    { value: 'psychologicalStress', label: 'Strong Psychological Stress without Previous Support' },
+    {
+      value: 'psychologicalStress',
+      label: 'Strong Psychological Stress without Previous Support',
+    },
     { value: 'sexualViolence', label: 'Sexual Violence' },
     { value: 'asylum', label: 'Asylum' },
-    { value: 'other', label: 'Other' }
+    { value: 'other', label: 'Other' },
   ];
 
   return (
     <div className="form-section">
       <h2>Support Needs</h2>
-      
+
       <div className="form-row">
-        <TextField 
-          name="specificSupportNeeds" 
-          label="Specific Support Needs" 
-          required 
-          placeholder="Please specify concrete concerns" 
+        <TextField
+          name="specificSupportNeeds"
+          label="Specific Support Needs"
+          required
+          placeholder="Please specify concrete concerns"
+          type="textarea"
         />
       </div>
-      
+
       <div className="form-row">
-        <CheckboxField 
-          name="acuteThreatSituation" 
-          label="Acute Threat Situation" 
+        <CheckboxField
+          name="acuteThreatSituation"
+          label="Acute Threat Situation"
         />
       </div>
-      
+
       <div className="form-row">
         <CheckboxGroup
           name="supportTypes"
@@ -54,13 +61,13 @@ const SupportNeedsSection: React.FC = () => {
           options={supportTypeOptions}
         />
       </div>
-      
+
       {supportTypes.includes('other') && (
         <div className="form-row">
-          <TextField 
-            name="otherSupportType" 
-            label="Other Support Type" 
-            placeholder="Specify other support type" 
+          <TextField
+            name="otherSupportType"
+            label="Other Support Type"
+            placeholder="Specify other support type"
             required
           />
         </div>
